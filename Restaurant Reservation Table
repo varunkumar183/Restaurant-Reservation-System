@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Reservation System</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        .container { max-width: 600px; margin: auto; }
+        table { width: 100%; margin-top: 20px; border-collapse: collapse; }
+        th, td { border: 1px solid #ccc; padding: 8px; }
+        th { background-color: #f4f4f4; }
+        button { cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Restaurant Reservation System</h2>
+        <p><strong>Seats Left:</strong> <span id="seatsLeft">20</span></p>
+        <form id="reservationForm">
+            <input type="text" id="name" placeholder="Name" required>
+            <input type="text" id="phone" placeholder="Phone" required>
+            <input type="number" id="guestCount" placeholder="Guest Count" required>
+            <button type="submit">Reserve</button>
+        </form>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Guest Count</th>
+                    <th>Check-in Time</th>
+                    <th>Checkout Time</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="reservationList"></tbody>
+        </table>
+    </div>
+
+    <script>
+        let seatsLeft = 20;
+        document.getElementById('reservationForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            let name = document.getElementById('name').value;
+            let phone = document.getElementById('phone').value;
+            let guestCount = parseInt(document.getElementById('guestCount').value);
+            
+            if (guestCount > seatsLeft) {
+                alert('Not enough seats available!');
+                return;
+            }
+            
+            let checkInTime = new Date().toLocaleTimeString();
+            seatsLeft -= guestCount;
+            document.getElementById('seatsLeft').textContent = seatsLeft;
+            
+            let row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${name}</td>
+                <td>${phone}</td>
+                <td>${guestCount}</td>
+                <td>${checkInTime}</td>
+                <td id="checkout-${name}">-</td>
+                <td>
+                    <button onclick="checkout('${name}', ${guestCount})">Checkout</button>
+                    <button onclick="deleteReservation(this, ${guestCount}, '${name}')">Delete</button>
+                </td>
+            `;
+            document.getElementById('reservationList').appendChild(row);
+            document.getElementById('reservationForm').reset();
+        });
+        
+        function checkout(name, guestCount) {
+            document.getElementById(`checkout-${name}`).textContent = new Date().toLocaleTimeString();
+            seatsLeft += guestCount;
+            document.getElementById('seatsLeft').textContent = seatsLeft;
+        }
+        
+        function deleteReservation(button, guestCount, name) {
+            let row = button.parentElement.parentElement;
+            let checkoutTime = document.getElementById(`checkout-${name}`).textContent;
+            if (checkoutTime === '-') {
+                seatsLeft += guestCount;
+            }
+            document.getElementById('seatsLeft').textContent = seatsLeft;
+            row.remove();
+        }
+    </script>
+</body>
+</html>
