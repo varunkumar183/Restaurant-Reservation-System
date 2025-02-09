@@ -39,37 +39,37 @@ function RestaurantReservation() {
     };
 
     return (
-        <div className="container text-center max-w-xl mx-auto">
-            <h2 className="text-xl font-bold">Restaurant Reservation System</h2>
-            <p><strong>Seats Left:</strong> {seatsLeft}</p>
-            <form onSubmit={handleSubmit} className="space-y-2">
-                <input type="text" name="name" placeholder="Name" required className="border p-1" />
-                <input type="text" name="phone" placeholder="Phone" required className="border p-1" />
-                <input type="number" name="guestCount" placeholder="Guest Count" required className="border p-1" />
-                <button type="submit" className="bg-blue-500 text-white px-3 py-1">Reserve</button>
+        <div style={{ maxWidth: "600px", margin: "20px auto", textAlign: "center", fontFamily: "Arial, sans-serif" }}>
+            <h2>Restaurant Reservation System</h2>
+            <p style={{ fontSize: "18px", marginBottom: "10px" }}><strong>Seats Left:</strong> {seatsLeft}</p>
+            <form onSubmit={handleSubmit} style={{ marginBottom: "20px" }}>
+                <input type="text" name="name" placeholder="Name" required style={inputStyle} />
+                <input type="text" name="phone" placeholder="Phone" required style={inputStyle} />
+                <input type="number" name="guestCount" placeholder="Guest Count" required style={inputStyle} />
+                <button type="submit" style={buttonStyle}>Reserve</button>
             </form>
-            <table className="w-full mt-4 border-collapse border border-gray-300">
+            <table style={{ width: "100%", borderCollapse: "collapse", marginTop: "20px" }}>
                 <thead>
-                    <tr className="bg-gray-200">
-                        <th className="border p-2">Name</th>
-                        <th className="border p-2">Phone</th>
-                        <th className="border p-2">Guest Count</th>
-                        <th className="border p-2">Check-in Time</th>
-                        <th className="border p-2">Checkout Time</th>
-                        <th className="border p-2">Actions</th>
+                    <tr>
+                        <th style={thStyle}>Name</th>
+                        <th style={thStyle}>Phone</th>
+                        <th style={thStyle}>Guest Count</th>
+                        <th style={thStyle}>Check-in Time</th>
+                        <th style={thStyle}>Checkout Time</th>
+                        <th style={thStyle}>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     {reservations.map((res, index) => (
-                        <tr key={index} className="border">
-                            <td className="border p-2">{res.name}</td>
-                            <td className="border p-2">{res.phone}</td>
-                            <td className="border p-2">{res.guestCount}</td>
-                            <td className="border p-2">{res.checkInTime}</td>
-                            <td className="border p-2">{res.checkoutTime}</td>
-                            <td className="border p-2">
-                                <button onClick={() => handleCheckout(res.name)} className="bg-green-500 text-white px-2 py-1 mr-2">Checkout</button>
-                                <button onClick={() => handleDelete(res.name)} className="bg-red-500 text-white px-2 py-1">Delete</button>
+                        <tr key={index}>
+                            <td style={tdStyle}>{res.name}</td>
+                            <td style={tdStyle}>{res.phone}</td>
+                            <td style={tdStyle}>{res.guestCount}</td>
+                            <td style={tdStyle}>{res.checkInTime}</td>
+                            <td style={tdStyle}>{res.checkoutTime}</td>
+                            <td style={tdStyle}>
+                                <button style={checkoutStyle} onClick={() => handleCheckout(res.name)}>Checkout</button>
+                                <button style={deleteStyle} onClick={() => handleDelete(res.name)}>Delete</button>
                             </td>
                         </tr>
                     ))}
@@ -79,4 +79,57 @@ function RestaurantReservation() {
     );
 }
 
+const inputStyle = {
+    display: "block",
+    width: "100%",
+    padding: "8px",
+    margin: "5px 0",
+    border: "1px solid #ccc",
+    borderRadius: "5px"
+};
+
+const buttonStyle = {
+    backgroundColor: "#007bff",
+    color: "white",
+    border: "none",
+    padding: "10px",
+    width: "100%",
+    cursor: "pointer",
+    marginTop: "10px",
+    borderRadius: "5px"
+};
+
+const thStyle = {
+    backgroundColor: "#f4f4f4",
+    border: "1px solid #ddd",
+    padding: "10px",
+    textAlign: "center"
+};
+
+const tdStyle = {
+    border: "1px solid #ddd",
+    padding: "10px",
+    textAlign: "center"
+};
+
+const checkoutStyle = {
+    backgroundColor: "#28a745",
+    color: "white",
+    border: "none",
+    padding: "5px 10px",
+    marginRight: "5px",
+    cursor: "pointer",
+    borderRadius: "5px"
+};
+
+const deleteStyle = {
+    backgroundColor: "#dc3545",
+    color: "white",
+    border: "none",
+    padding: "5px 10px",
+    cursor: "pointer",
+    borderRadius: "5px"
+};
+
 export default RestaurantReservation;
+
